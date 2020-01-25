@@ -52,7 +52,11 @@ int ObjParser::Parse()
 			{
 				std::vector<std::string> indexData = Split(facesData.at(i), '/');
 				int index = std::stoi(indexData.at(0));
-				if (index < 0)
+				if (index > 0)
+				{
+					index -= 1;
+				}
+				else
 				{
 					index += vertexes.size();
 				}
