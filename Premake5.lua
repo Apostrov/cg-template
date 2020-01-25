@@ -3,7 +3,7 @@ workspace "Computer Graphics"
    language "C++"
    architecture "x64"
    systemversion "latest"
-   toolset "v142"
+   toolset "v141"
    optimize "Speed"
    filter "configurations:Debug"
       defines { "DEBUG" }
@@ -41,7 +41,7 @@ group "01. Black image"
       files { "lib/stb/stb_image.h", "tests/utils.h", "tests/black_image_tests.cpp" }
       links "Black image lib"
       debugargs { "--benchmark-samples", "25" }
---[[
+
 group "02. Color space"
    project "Color space lib"
       kind "StaticLib"
@@ -191,7 +191,7 @@ group "07. Z-buffer culling"
       files { "lib/stb/stb_image.h", "tests/utils.h", "tests/z_buffer_culling_tests.cpp" }
       links "Z buffer culling lib"
       debugargs { "--benchmark-samples", "25" }
-
+--[[
 group "08. Phong model"
    project "Phong model lib"
       kind "StaticLib"
