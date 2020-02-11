@@ -18,10 +18,10 @@ void ZCulling::DrawScene()
 {
 	parser->Parse();
 
-	float rotationAngle = 30.0f * M_PI / 180.0f;
+	float rotationAngle = 0.0f * M_PI / 180.0f;
 
 	float3 eye{ 0, 0, 0 };
-	float3 lookAt{ 0, 0, 2 };
+	float3 lookAt{ 0, 0, 1 };
 	float3 up{ 0, 1, 0 };
 
 	float fov_y_angle = 60.0f * M_PI / 180.0f;
@@ -106,15 +106,16 @@ void ZCulling::DrawTriangle(float4 triangle[3])
 
 	for (float x = bb_begin.x; x <= bb_end.x; x++) {
 		for (float y = bb_begin.y; y <= bb_end.y; y++) {
-			float area0 = EdgeFunction(triangle[0].xy(), triangle[1].xy(), float2{ x, y });
-			float area1 = EdgeFunction(triangle[1].xy(), triangle[2].xy(), float2{ x, y });
+			float area1 = EdgeFunction(triangle[0].xy(), triangle[1].xy(), float2{ x, y });
+			float area0 = EdgeFunction(triangle[1].xy(), triangle[2].xy(), float2{ x, y });
 			float area2 = EdgeFunction(triangle[2].xy(), triangle[0].xy(), float2{ x, y });
 			if (area0 >= 0.0 && area1 >= 0.0 && area2 >= 0.0) {
 				float u = area0 / area;
 				float v = area1 / area;
 				float w = area2 / area;
 				drawing = true;
-				SetPixel(x, y, color(255 * u, 255 * v, 255 * w));
+				float z = u * (-triangle[0].z) + v * (-triangle[1].z) + w * (-triangle[2].z);
+				SetPixel(x, y, color(255 * u, 255 * v, 255 * w), z);
 			}
 		}
 	}
@@ -141,7 +142,14 @@ void ZCulling::DrawTriangle(float4 triangle[3])
 	}
 }
 
-void ZCulling::SetDepth(unsigned short x, unsigned short y, float depth)
+void ZCulling::SetPixel(unsigned short x, unsigned short y, color color, float depth)
 {
+	int index = y * width + x;
+	if (depth_buffer[index] < depth)
+	{
+		frame_buffer[index] = color;
+		depth_buffer[index] = depth;
+	}
+	
 }
 

@@ -15,6 +15,6 @@ public:
 
 protected:
 	void DrawTriangle(float4 triangle[3]);
-	void SetDepth(unsigned short x, unsigned short y, float depth);
-	std::vector<float> depth_buffer;
+	void SetPixel(unsigned short x, unsigned short y, color color, float depth);
+
 };
