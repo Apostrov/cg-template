@@ -91,7 +91,8 @@ void ZCulling::DrawScene()
 
 void ZCulling::Clear()
 {
-
+	frame_buffer.resize(width * height, color(0, 0, 0));
+	depth_buffer.resize(width * height, -1000.0f);
 }
 
 void ZCulling::DrawTriangle(float4 triangle[3])
